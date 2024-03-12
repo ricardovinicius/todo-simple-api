@@ -1,4 +1,4 @@
-package com.lucasangelo.models;
+package com.lucasangelo.todosimple.models;
 
 
 import javax.persistence.Column;
