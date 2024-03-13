@@ -1,6 +1,7 @@
 package com.lucasangelo.todosimple.controllers;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lucasangelo.todosimple.models.Task;
 import com.lucasangelo.todosimple.services.TaskService;
+import com.lucasangelo.todosimple.services.UserService;
 
 @RestController
 @RequestMapping("/task")
@@ -27,6 +29,9 @@ public class TaskController {
     
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> findById(@PathVariable Long id) {
@@ -60,5 +65,14 @@ public class TaskController {
         this.taskService.delete(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/user/{user_id}")
+    public ResponseEntity<List<Task>> findAllByUserId(@PathVariable Long user_id) {
+        this.userService.findById(user_id);
+
+        List<Task> tasks = this.taskService.findAllByUserId(user_id);
+
+        return ResponseEntity.ok().body(tasks);
     }
 }

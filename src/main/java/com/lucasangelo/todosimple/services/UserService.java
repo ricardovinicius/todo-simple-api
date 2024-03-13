@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lucasangelo.todosimple.models.User;
-import com.lucasangelo.todosimple.repositories.TaskRepository;
 import com.lucasangelo.todosimple.repositories.UserRepository;
 
 @Service
