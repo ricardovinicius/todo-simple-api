@@ -10,10 +10,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Objects;
+
+import lombok.Data;
+
 
 @Entity
 @Table(name = Task.TABLE_NAME)
+@Data
 public class Task {
     public static final String TABLE_NAME = "task";
 
@@ -31,54 +34,4 @@ public class Task {
     @Size(min = 1, max = 255)
     private String description;
 
-
-    public Task() {
-    }
-
-    public Task(Long id, User user, String description) {
-        this.id = id;
-        this.user = user;
-        this.description = description;
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return this.user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof Task)) {
-            return false;
-        }
-        Task task = (Task) o;
-        return Objects.equals(id, task.id) && Objects.equals(user, task.user) && Objects.equals(description, task.description);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, user, description);
-    }
-    
 }
