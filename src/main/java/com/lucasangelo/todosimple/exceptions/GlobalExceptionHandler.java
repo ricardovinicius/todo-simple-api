@@ -2,7 +2,10 @@ package com.lucasangelo.todosimple.exceptions;
 
 
 
-import org.apache.catalina.connector.Response;
+
+import javax.validation.ConstraintViolationException;
+
+
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -16,6 +19,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import com.lucasangelo.todosimple.services.exceptions.DataBindingViolationException;
+import com.lucasangelo.todosimple.services.exceptions.ObjectNotFoundException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -68,6 +74,43 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
                 errorMessage,
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 request);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ResponseEntity<Object> handleConstraintViolationException(
+            ConstraintViolationException constraintViolationException,
+            WebRequest request) {
+        log.error("Failed to validate element", constraintViolationException);
+        return buildErrorResponse(
+                constraintViolationException,
+                HttpStatus.UNPROCESSABLE_ENTITY,
+                request);
+    }
+
+    @ExceptionHandler(ObjectNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<Object> handleObjectNoFoundException(
+            ObjectNotFoundException objectNotFoundException,
+            WebRequest request) {
+        log.error("Failed to find the requested element", objectNotFoundException);
+        return buildErrorResponse(objectNotFoundException, HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler(DataBindingViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<Object> handleDataBindingViolation(
+            DataBindingViolationException dataBindingViolationException,
+            WebRequest request) {
+        log.error("Failed to find the requested element", dataBindingViolationException);
+        return buildErrorResponse(dataBindingViolationException, HttpStatus.CONFLICT, request);
+    }
+
+    private ResponseEntity<Object> buildErrorResponse(
+            Exception exception,
+            HttpStatus httpStatus,
+            WebRequest request) {
+        return buildErrorResponse(exception, exception.getMessage(), httpStatus, request);
     }
 
     private ResponseEntity<Object> buildErrorResponse(
