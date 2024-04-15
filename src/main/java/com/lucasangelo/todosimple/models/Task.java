@@ -11,11 +11,15 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Entity
 @Table(name = Task.TABLE_NAME)
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class Task {
     public static final String TABLE_NAME = "task";

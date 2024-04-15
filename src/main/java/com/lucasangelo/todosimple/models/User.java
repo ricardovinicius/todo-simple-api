@@ -19,7 +19,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.lucasangelo.todosimple.models.enums.ProfileEnum;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,9 +33,9 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = User.TABLE_NAME)
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
-    public interface CreateUser {}
-    public interface UpdateUser {}
 
     public static final String TABLE_NAME = "user";
 
@@ -43,14 +45,14 @@ public class User {
     private Long id;
 
     @Column(name = "username", length = 100, nullable = false, unique = true)
-    @NotBlank(groups = CreateUser.class)
-    @Size(groups = CreateUser.class, min = 2, max = 100)
+    @NotBlank()
+    @Size(min = 2, max = 100)
     private String username;
 
     @JsonProperty(access = Access.WRITE_ONLY)
     @Column(name = "password", length = 60, nullable = false)
-    @NotBlank(groups = {CreateUser.class, UpdateUser.class})
-    @Size(groups = {CreateUser.class, UpdateUser.class}, min = 8, max = 60)
+    @NotBlank()
+    @Size(min = 8, max = 60)
     private String password;
 
     @OneToMany(mappedBy = "user")
