@@ -25,7 +25,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
         if (Objects.isNull(user))
             throw new UsernameNotFoundException("Usuário não encontrado: " + username);
             
-        return new UserSpringSecurity(user.getId(), user.getPassword(), user.getPassword(), user.getProfiles());
+        return new UserSpringSecurity(user.getId(), user.getUsername(), user.getPassword(), user.getProfiles());
     }
     
 }
