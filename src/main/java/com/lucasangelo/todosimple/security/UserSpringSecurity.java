@@ -29,10 +29,6 @@ public class UserSpringSecurity implements UserDetails {
         this.authorities = profileEnums.stream().map(x -> new SimpleGrantedAuthority(x.getDescription())).collect(Collectors.toList());
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        throw new UnsupportedOperationException("Unimplemented method 'getAuthorities'");
-    }
 
     @Override
     public boolean isAccountNonExpired() {
